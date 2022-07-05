@@ -7,7 +7,7 @@ class ServicoSchema(BaseModel):
     nome_servico: str
     valor: int
     tempo: str
-    usuario_id: int
 
     class Config:
         orm_mode = True
+        

@@ -36,7 +36,7 @@ async def get_pedidos(db: AsyncSession = Depends(get_session)):
     async with db as session:
         query = select(PedidoModel)
         result = await session.execute(query)
-        pedidos: List[PedidoModel] = result.scalars().unique().all()
+        pedidos: List[PedidoSchemaDatas] = result.scalars().unique().all()
         
         if pedidos:
             return pedidos
@@ -50,7 +50,7 @@ async def get_pedido(id_pedido: int, db: AsyncSession = Depends(get_session)):
     async with db as session:
         query = select(PedidoModel).filter(PedidoModel.id == id_pedido)
         result = await session.execute(query)
-        pedido: PedidoModel = result.scalars().unique().one_or_none()
+        pedido: PedidoSchemaDatas = result.scalars().unique().one_or_none()
 
         if pedido:
             return pedido
@@ -65,7 +65,7 @@ async def delete_pedido(id_pedido: int, usuario_logado: UsuarioModel = Depends(g
     async with db as session:
         query = select(PedidoModel).filter(PedidoModel.id == id_pedido).filter(PedidoModel.usuario_id == usuario_logado)
         result = session.execute(query)
-        pedido_del: PedidoModel = result.scalars().unique().one_or_none()
+        pedido_del: PedidoSchemaDatas = result.scalars().unique().one_or_none()
 
         if pedido_del:
             await session.delete(pedido_del)
