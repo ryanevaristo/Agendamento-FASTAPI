@@ -1,6 +1,6 @@
 from typing import List, Optional
 from pydantic import AnyUrl, BaseModel, EmailStr
-from schemas.AgendaSchema import AgendamentoSchemaDatas
+from schemas.PedidoSchema import PedidoSchemaDatas
 
 
 class UsuarioSchemaBase(BaseModel):
@@ -30,4 +30,4 @@ class UsuarioSchemaUpdate(UsuarioSchemaBase):
     senha: Optional[str]
 
 class UsuarioSchemaAgenda(UsuarioSchemaBase):
-    agenda: Optional[List[AgendamentoSchemaDatas]]
+    agenda: Optional[List[PedidoSchemaDatas]]

@@ -16,8 +16,8 @@ class UsuarioModel(settings.DB_BASE_MODEL):
     email : str = Column(String(256),index=True, nullable=False, unique=True)
     senha : str = Column(String(256), nullable=False)
     is_admin: bool = Column(Boolean(), default=False)
-    agendas: relationship = relationship(
-        "AgendaModel",
+    pedidos: relationship = relationship(
+        "PedidoModel",
         cascade="all,delete-orphan",
         back_populates="criador",
         uselist=True,

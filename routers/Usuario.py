@@ -1,5 +1,5 @@
-import http
-from typing import List, Optional
+
+from typing import List
 
 from fastapi import APIRouter, Depends, Response, status, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
