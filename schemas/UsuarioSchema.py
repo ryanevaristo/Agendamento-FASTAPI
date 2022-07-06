@@ -30,4 +30,4 @@ class UsuarioSchemaUpdate(UsuarioSchemaBase):
     senha: Optional[str]
 
 class UsuarioSchemaAgenda(UsuarioSchemaBase):
-    agenda: Optional[List[PedidoSchemaDatas]]
+    pedido: Optional[List[PedidoSchemaDatas]]

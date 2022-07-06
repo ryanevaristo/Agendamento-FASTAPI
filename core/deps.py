@@ -37,7 +37,7 @@ async def get_current_user(db: Session = Depends(get_session), token: str = Depe
 
     #Decodificar o Token
     try:
-        payload = jwt.decode(token, settings.JWT_SECRET, algorithms=[settings.ALGORITHM], options={"verify_aud":False})
+        payload = jwt.decode(token, settings.JWT_SECRET, algorithms=settings.ALGHORITM, options={"verify_aud":False})
         username_id: str = payload.get("sub")
 
         if username_id is None:

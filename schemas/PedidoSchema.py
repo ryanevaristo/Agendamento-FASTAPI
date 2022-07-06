@@ -9,7 +9,7 @@ class PedidoSchema(BaseModel):
     id: Optional[int]
     usuario_id: Optional[int]
     servico_id: Optional[int]
-    num_pedido: int
+    num_pedido: int | None = None
     ativo: bool = False
 
     class Config:

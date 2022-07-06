@@ -1,5 +1,6 @@
 
 from typing import List
+from asyncpg import InternalServerError
 
 from fastapi import APIRouter, Depends, Response, status, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
@@ -73,13 +74,13 @@ async def get_usuario(id_usuario: int, db: AsyncSession = Depends(get_session)):
 
 #PUT USUARIO
 @router.put('/{id_usuario}', response_model=UsuarioSchemaUpdate, status_code=status.HTTP_202_ACCEPTED)
-async def put_usuario(id_usuario: int,usuario: UsuarioSchemaUpdate, db: AsyncSession = Depends(get_session)):
+async def put_usuario(id_usuario: int,usuario: UsuarioSchemaUpdate,usuario_logado: UsuarioModel = Depends(get_current_user), db: AsyncSession = Depends(get_session)):
     async with db as session:
         query = select(UsuarioModel).filter(UsuarioModel.id == id_usuario)
         result = await session.execute(query)
         usuario_up: UsuarioSchemaCreate = result.scalars().unique().one_or_none()
 
-        if usuario_up:
+        if usuario_up and usuario_logado.id == id_usuario:
             if usuario.nome:
                 usuario_up.nome = usuario.nome
             if usuario.foto:
@@ -104,13 +105,13 @@ async def put_usuario(id_usuario: int,usuario: UsuarioSchemaUpdate, db: AsyncSes
 
 #DELETE USUARIO
 @router.delete('/{id_usuario}',status_code=status.HTTP_204_NO_CONTENT)
-async def delete_usuario(id_usuario: int, db: AsyncSession = Depends(get_session)):
+async def delete_usuario(id_usuario: int, usuario_logado:UsuarioModel = Depends(get_current_user),db: AsyncSession = Depends(get_session)):
     async with db as session:
         query = select(UsuarioModel).filter(UsuarioModel.id == id_usuario)
         result = await session.execute(query)
         usuario_del: UsuarioSchemaAgenda = result.scalars().unique().one_or_none()
 
-        if usuario_del:
+        if usuario_del and usuario_logado.id == id_usuario:
             await session.delete(usuario_del)
             await session.commit()
             return Response(status_code=status.HTTP_204_NO_CONTENT)
